@@ -23,7 +23,8 @@ Game.prototype.dealCards = function() {
   $('.actions').html(`<button class="hit">Hit</button><button class="stay">Stay</button>`)
 
   $('.hit').on('click', function() {
-    self.checkForBust(self.player.hand)
+    var totes = self.checkForBust(self.player.hand)
+    console.log('totes?', totes)
   })
 
   // $('.stay')
@@ -59,25 +60,27 @@ Game.prototype.getCardTotal = function(who) {
 }
 
 Game.prototype.checkForBust = function(hand, aces, total) {
+  // console.log(hand)
+  // return hand
   if(!aces || ! total){
-    var aces = [];
-    var total = 0;
+    var aces = []
+    var total = 0
   }
   for(var i = 0; i< hand.length; i++){
     if (hand[i].weight == 11){
       aces.push(i);
     }
-    total += hand[i].total;
+    total += hand[i].weight
   }
-  if(this.total > 21 && aces.length == 0){
-    return this.total;
+  if(total > 21 && aces.length == 0){
+    return total
   }
-  else if(this.total < 21){
-    return this.total;
+  else if(total < 21){
+    return total
   }
   else{
     hand[aces[aces.length-1]].weight = 1;
-    aces.pop();
-    return(checkForBust(hand, aces, total));
+    aces.pop()
+    return this.checkForBust(hand, aces, total)
   }
 }
