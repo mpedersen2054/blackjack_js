@@ -4,6 +4,7 @@ function Card(suite, val) {
   this.suite = suite
   this.val = val
   this.hiddenHex = 'x1f0a0'
+  this.weight = this.getCardWeight()
 
   this.cardImg = this.getCardImg()
   this.cardStr = this.getCardStr()
@@ -45,4 +46,16 @@ Card.prototype.getCardStr = function() {
   else if (cardVal == '13') { cardVal = 'King' }
 
   return `${cardVal} of ${suiteCap}`
+}
+
+Card.prototype.getCardWeight = function() {
+  if (this.val == 1) {
+    return 11
+  }
+  else if (this.val > 10) {
+    return 10
+  }
+  else {
+    return this.val
+  }
 }

@@ -15,7 +15,9 @@ Dealer.prototype.draw = function(deck) {
 
 // pass in jquery elem and appends card w/ unicode
 Dealer.prototype.showHand = function(elem) {
+  var str = ''
   for (var i = 0; i < this.hand.length; i++) {
-    elem.append(`<div class="card">&#${i == 0 ? this.hand[i].hiddenHex : this.hand[i].cardImg};</div>`)
+    str += `<div class="card">&#${i == 0 ? this.hand[i].hiddenHex : this.hand[i].cardImg};</div>`
   }
+  elem.html(str)
 }
