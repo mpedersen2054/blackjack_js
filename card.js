@@ -3,6 +3,7 @@ function Card(suite, val) {
 
   this.suite = suite
   this.val = val
+  this.hiddenHex = 'x1f0a0'
 
   this.cardImg = this.getCardImg()
   this.cardStr = this.getCardStr()

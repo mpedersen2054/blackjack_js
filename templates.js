@@ -13,8 +13,6 @@ var Tmpls = {
 
       <div class="actions">
         <button class="deal">Deal</button>
-        <button class="hit">Hit</button>
-        <button class="stay">Stay</button>
       </div>
 
       <hr>

@@ -5,4 +5,8 @@ var name = prompt('What is your name?')
 $('#main').append(Tmpls.boardTmpl(name))
 
 var game = new Game(new Player(name), new Dealer())
-game.init()
+
+$('.deal').on('click', function(e) {
+  e.preventDefault()
+  game.dealCards()
+})
