@@ -1,5 +1,6 @@
 
-var name = prompt('What is your name?')
+// var name = prompt('What is your name?')
+var name = 'Matt'
 
 // append game html to DOM
 $('#main').append(Tmpls.boardTmpl(name))

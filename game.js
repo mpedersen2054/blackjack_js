@@ -17,29 +17,38 @@ function Game(player, dealer) {
 Game.prototype.dealCards = function() {
   var self = this
 
+  this.deck = new Deck()
+
+  this.dealerScore = 0
+  this.playerScore = 0
+  $('.player-card-total').html(this.playerTotal)
+  $('.dealer-card-total').html(this.dealerTotal)
+
+  this.player.hand = []
+  this.dealer.hand = []
+
   this.player.draw(this.deck).draw(this.deck)
   this.dealer.draw(this.deck).draw(this.deck)
 
   this.player.showHand($('.player'))
   this.dealer.showHand($('.dealer'))
 
-  $('.actions').html(`<button class="hit">Hit</button><button class="stay">Stay</button>`)
+
+  $('.after-game-btns').css('display', 'none')
+  $('.during-game-btns').css('display', 'block')
 
   $('.hit').on('click', function() {
     self.player.draw(self.deck)
     self.player.showHand($('.player'))
-    var totes = self.checkForBust(self.player.hand)
-    self.playerTotal = totes
+    self.playerTotal = self.checkForBust(self.player.hand)
     self.getCardTotal('player')
 
-    if (totes == 21) {
+    if (self.playerTotal == 21) {
       console.log('DEALER TURN NOW')
     }
-    else if (totes > 21) {
+    else if (self.playerTotal > 21) {
       console.log('HANDLE BUSSSSSTTTT')
-      $('.hit').off()
-      self.dealerWin++
-      // self.dealCards()
+      self.handleEndGame()
     }
     else {
       console.log('KEEEEPPPPPPP GOIN')
@@ -50,6 +59,8 @@ Game.prototype.dealCards = function() {
 
   this.getCardTotal('player')
   this.getCardTotal('dealer')
+
+  console.log(this.deck)
 }
 
 Game.prototype.getCardTotal = function(who) {
@@ -87,14 +98,15 @@ Game.prototype.checkForBust = function(hand, aces, total) {
   }
   for(var i = 0; i< hand.length; i++){
     if (hand[i].weight == 11){
-      aces.push(i);
+      aces.push(i)
     }
     total += hand[i].weight
   }
-  if(total > 21 && aces.length == 0){
+
+  if (total > 21 && aces.length == 0){
     return total
   }
-  else if(total < 21){
+  else if (total < 22){
     return total
   }
   else{
@@ -102,4 +114,16 @@ Game.prototype.checkForBust = function(hand, aces, total) {
     aces.pop()
     this.checkForBust(hand, aces, total)
   }
+}
+
+Game.prototype.handleEndGame = function() {
+  if (this.playerScore > 21) {
+    this.dealerWins++
+    $('.dealer-score').html(this.dealerWins)
+  }
+
+  $('.after-game-btns').css('display', 'block')
+  $('.during-game-btns').css('display', 'none')
+
+  $('.hit').off()
 }

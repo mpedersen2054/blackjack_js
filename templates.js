@@ -12,7 +12,8 @@ var Tmpls = {
       </div>
 
       <div class="actions">
-        <button class="deal">Deal</button>
+        <div class="after-game-btns"><button class="deal">Deal</button></div>
+        <div class="during-game-btns"><button class="hit">Hit</button><button class="stay">Stay</button></div>
       </div>
 
       <hr>

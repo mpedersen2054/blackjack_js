@@ -7,3 +7,11 @@
   display: inline-block;
   font-size: 100px;
 }
+
+.after-game-btns {
+  display: block;
+}
+
+.during-game-btns {
+  display: none;
+}
