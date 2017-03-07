@@ -4,15 +4,22 @@ var Tmpls = {
     return `
     <div id="game">
       <div class="dealer">
-        <h2>Dealer</h2>
+        <h4>Dealer</h4>
       </div>
 
       <div class="player">
-        <h2>Player ( ${playerName} )</h2>
+        <h4>Player ( ${playerName} )</h4>
       </div>
 
       <div class="actions">
         <button class="deal">Deal</button>
+      </div>
+
+      <hr>
+
+      <div class="card-totals">
+        <div>Player card total: <span class="player-card-total"></span></div>
+        <div>Dealer card total: <span class="dealer-card-total"></span></div>
       </div>
 
       <hr>
