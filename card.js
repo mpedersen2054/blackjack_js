@@ -22,9 +22,8 @@ Card.prototype.getCardImg = function() {
   var tempVal = this.val
   if (this.val == 10) { tempVal = 'a' }
   else if (this.val == 11) { tempVal = 'b' }
-  else if (this.val == 12) { tempVal = 'c' }
-  else if (this.val == 13) { tempVal = 'd' }
-  else if (this.val == 14) { tempVal = 'e' }
+  else if (this.val == 12) { tempVal = 'd' }
+  else if (this.val == 13) { tempVal = 'e' }
 
   // get string for the unicode
   if (this.suite == 'spades') { unicodeString = spades + tempVal }
