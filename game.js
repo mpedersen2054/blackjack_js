@@ -5,6 +5,9 @@ function Game(player, dealer) {
   this.dealer = dealer
   this.deck = new Deck()
 
+  this.playerWins = 0
+  this.dealerWins = 0
+
   this.playerScore = 0
   this.dealerScore = 0
   this.whoseTurn = 'player'
@@ -23,8 +26,24 @@ Game.prototype.dealCards = function() {
   $('.actions').html(`<button class="hit">Hit</button><button class="stay">Stay</button>`)
 
   $('.hit').on('click', function() {
+    self.player.draw(self.deck)
+    self.player.showHand($('.player'))
     var totes = self.checkForBust(self.player.hand)
-    console.log('totes?', totes)
+    self.playerTotal = totes
+    self.getCardTotal('player')
+
+    if (totes == 21) {
+      console.log('DEALER TURN NOW')
+    }
+    else if (totes > 21) {
+      console.log('HANDLE BUSSSSSTTTT')
+      $('.hit').off()
+      self.dealerWin++
+      // self.dealCards()
+    }
+    else {
+      console.log('KEEEEPPPPPPP GOIN')
+    }
   })
 
   // $('.stay')
@@ -81,6 +100,6 @@ Game.prototype.checkForBust = function(hand, aces, total) {
   else{
     hand[aces[aces.length-1]].weight = 1;
     aces.pop()
-    return this.checkForBust(hand, aces, total)
+    this.checkForBust(hand, aces, total)
   }
 }
