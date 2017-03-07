@@ -16,5 +16,5 @@ Game.prototype.dealCards = function() {
 
   this.player.showHand($('.player'))
   this.dealer.showHand($('.dealer'))
-  console.log(this.dealer.hand[0])
+
 }
