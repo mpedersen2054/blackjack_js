@@ -14,6 +14,7 @@ function Game(player, dealer) {
 
 }
 
+// called at start of game or when board is reset
 Game.prototype.dealCards = function() {
   var self = this
 
