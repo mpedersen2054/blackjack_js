@@ -81,7 +81,7 @@ Game.prototype.dealCards = function() {
   // attach e handler onto DOM that will start the dealer's
   //turn if the user stays
   $('.stay').on('click', function() {
-    this.whoseTurn = 'dealer'
+    self.whoseTurn = 'dealer'
     self.dealerTurn()
     // self.handleEndGame()
     $(this).off()
@@ -167,10 +167,15 @@ Game.prototype.dealerTurn = function(){
 
   console.log(this.dealer.hand)
 
-  if (this.dealerScore < this.playerScore && this.dealerScore < 22) {
+  // this.dealerScore = this.checkForBust(this.dealer.hand)
+
+
+  if (this.dealerScore < this.playerScore || this.dealerScore < 22) {
     this.dealer.draw(this.deck)
-    // this.dealerScore = this.checkForBust(this.dealer.hand)
-    this.getCardTotal('dealer')
     this.dealer.showHand($('.dealer'), true)
+    this.getCardTotal('dealer')
+    this.dealerTurn()
+  } else {
+    this.endGame()
   }
 }
