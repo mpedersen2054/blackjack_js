@@ -97,7 +97,7 @@ Game.prototype.dealCards = function() {
 Game.prototype.getCardTotal = function(who) {
   // get the dealer total of only face up card ( during player's turn )
   if (who == 'dealer' && this.whoseTurn == 'player') {
-    this.dealerScore += this.dealer.hand[1].weight
+    this.dealerScore = this.dealer.hand[1].weight
     $('.dealer-card-total').html(this.dealerScore)
   }
 
