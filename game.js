@@ -83,7 +83,7 @@ Game.prototype.dealCards = function() {
   $('.stay').on('click', function() {
     this.whoseTurn = 'dealer'
     self.dealerTurn()
-    // self.handleEndGame()
+    self.handleEndGame()
     $(this).off()
   })
 
@@ -103,19 +103,13 @@ Game.prototype.getCardTotal = function(who) {
 
   // get the dealer total if its their turn
   if (who == 'dealer' && this.whoseTurn == 'dealer') {
-    for (var i = 0; i < this.dealer.hand.length; i++) {
-      this.dealerScore += this.dealer.hand[i].weight
-    }
+    this.dealerScore = this.checkForBust(this.dealer.hand)
     $('.dealer-card-total').html(this.dealerScore)
   }
 
   // get the players total
   if (who == 'player') {
-    var score = 0
-    for (var i = 0; i < this.player.hand.length; i++) {
-      score += this.player.hand[i].weight
-      this.playerScore = score
-    }
+    this.playerScore = this.checkForBust(this.player.hand)
     $('.player-card-total').html(this.playerScore)
   }
 }
@@ -170,12 +164,13 @@ Game.prototype.handleEndGame = function() {
 
 //loop that checks dealer score against player score and 21
 Game.prototype.dealerTurn = function(){
-  // this.dealerScore = this.checkForBust(this.dealer.hand)
-  this.getCardTotal('dealer')
-  this.dealer.showHand($('.dealer'), true)
+
   console.log(this.dealer.hand)
 
   if (this.dealerScore < this.playerScore && this.dealerScore < 22) {
-    this.dealerTurn()
+    this.dealer.draw(this.deck)
+    // this.dealerScore = this.checkForBust(this.dealer.hand)
+    this.getCardTotal('dealer')
+    this.dealer.showHand($('.dealer'), true)
   }
 }
