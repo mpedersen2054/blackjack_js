@@ -17,26 +17,46 @@ function Game(player, dealer) {
 Game.prototype.dealCards = function() {
   var self = this
 
+  // instantiate new deck(shuffles on instantiation)
   this.deck = new Deck()
 
+  // sets the hand scores to 0. used so we can called
+  // this.dealCards() once a round is over to reset cards on table
   this.dealerScore = 0
   this.playerScore = 0
   $('.player-card-total').html(this.playerTotal)
   $('.dealer-card-total').html(this.dealerTotal)
 
+  // reset the players hands
   this.player.hand = []
   this.dealer.hand = []
 
+  // draw 2 cards for player/dealer
   this.player.draw(this.deck).draw(this.deck)
   this.dealer.draw(this.deck).draw(this.deck)
 
+  // show the hexidecimal cards for hand
   this.player.showHand($('.player'))
   this.dealer.showHand($('.dealer'))
 
+  // if the dealer has 21 (even before user makes move)
+  // dealer will win automatically
+  if (this.checkForBust(this.dealer.hand) == 21) {
+    this.whoseTurn = 'dealer'
+    this.player.showHand($('.dealer'))
 
+    // handle dealer win
+  }
+  else if (this.checkForBust(this.player.hand) == 21) {
+    // handle player auto win
+  }
+
+  // hide the 'deal' btn, show the 'hit' & 'stay' btns
   $('.after-game-btns').css('display', 'none')
   $('.during-game-btns').css('display', 'block')
 
+  // attach e handler onto DOM that will deal the player
+  // a new card, and handle logic depending on what the card is
   $('.hit').on('click', function() {
     self.player.draw(self.deck)
     self.player.showHand($('.player'))
@@ -55,8 +75,7 @@ Game.prototype.dealCards = function() {
     }
   })
 
-  // $('.stay')
-
+  // gets/updates DOM with the new totals
   this.getCardTotal('player')
   this.getCardTotal('dealer')
 
@@ -89,33 +108,38 @@ Game.prototype.getCardTotal = function(who) {
   }
 }
 
+// handle aces logic. if playerTotal > 21 & has ace(s), make
+// ace(s) worth 1 instead of 11 until the total is below 21
 Game.prototype.checkForBust = function(hand, aces, total) {
-  // console.log(hand)
-  // return hand
-  if(!aces || ! total){
+  if (!aces || ! total) {
     var aces = []
     var total = 0
   }
-  for(var i = 0; i< hand.length; i++){
+  for (var i = 0; i< hand.length; i++) {
     if (hand[i].weight == 11){
       aces.push(i)
     }
     total += hand[i].weight
   }
 
-  if (total > 21 && aces.length == 0){
+  if (total > 21 && aces.length == 0) {
     return total
   }
-  else if (total < 22){
+  else if (total < 22) {
     return total
   }
   else{
     hand[aces[aces.length-1]].weight = 1;
     aces.pop()
+
+    // recursively call method incase there is more
+    // than 1 ace
     this.checkForBust(hand, aces, total)
   }
 }
 
+// modify player/dealer win score, hide 'hit' & 'stay' btns
+// show 'deal' btn again
 Game.prototype.handleEndGame = function() {
   if (this.playerScore > 21) {
     this.dealerWins++
