@@ -83,7 +83,7 @@ Game.prototype.dealCards = function() {
   $('.stay').on('click', function() {
     this.whoseTurn = 'dealer'
     self.dealerTurn()
-    self.handleEndGame()
+    // self.handleEndGame()
     $(this).off()
   })
 
