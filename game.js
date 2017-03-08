@@ -116,11 +116,11 @@ Game.prototype.getCardTotal = function(who) {
 
 // handle aces logic. if playerTotal > 21 & has ace(s), make
 // ace(s) worth 1 instead of 11 until the total is below 21
-Game.prototype.checkForBust = function(hand, aces, total) {
-  if (!aces || !total) {
+Game.prototype.checkForBust = function(hand, aces) {
+  if (!aces) {
     var aces = []
-    var total = 0
   }
+  var total = 0
   for (var i = 0; i< hand.length; i++) {
     if (hand[i].weight == 11){
       aces.push(i)
@@ -140,7 +140,7 @@ Game.prototype.checkForBust = function(hand, aces, total) {
 
     // recursively call method incase there is more
     // than 1 ace
-    this.checkForBust(hand, aces, total)
+    this.checkForBust(hand, aces)
   }
 }
 
