@@ -65,6 +65,8 @@ Game.prototype.dealCards = function() {
 
     if (self.playerTotal == 21) {
       console.log('DEALER TURN NOW')
+      self.dealerTurn(this.dealer.hand, this.player.playerTotal)
+      self.handleEndGame()
     }
     else if (self.playerTotal > 21) {
       console.log('HANDLE BUSSSSSTTTT')
@@ -73,6 +75,13 @@ Game.prototype.dealCards = function() {
     else {
       console.log('KEEEEPPPPPPP GOIN')
     }
+  })
+
+  // attach e handler onto DOM that will start the dealer's
+  //turn if the user stays
+  $('.stay').on('click', function() {
+    self.dealerTurn(this.dealer.hand, this.player.playerTotal)
+    self.handleEndGame()
   })
 
   // gets/updates DOM with the new totals
@@ -141,13 +150,28 @@ Game.prototype.checkForBust = function(hand, aces, total) {
 // modify player/dealer win score, hide 'hit' & 'stay' btns
 // show 'deal' btn again
 Game.prototype.handleEndGame = function() {
-  if (this.playerScore > 21) {
+  if (this.dealerScore > 21) {
+    this.playerWins++
+    $('.player-score').html(this.playerWins)
+  }
+  else{
     this.dealerWins++
-    $('.dealer-score').html(this.dealerWins)
+    $(`.dealer-score`).html(this.dealerWins)
   }
 
   $('.after-game-btns').css('display', 'block')
   $('.during-game-btns').css('display', 'none')
 
   $('.hit').off()
+}
+
+//loop that checks dealer score against player score and 21
+Game.prototype.dealerTurn = function(dealerHand, playerTotal){
+  while(this.checkForBust(dealerHand) < playerTotal || this.checkForBust(dealerHand) < 22){
+    self.dealer.draw(self.deck)
+    self.dealer.showHand($('.dealer'))
+    self.dealerTotal = self.checkForBust(self.dealer.hand)
+    self.getCardTotal('dealer')
+    setInterval(1500)
+  }
 }
