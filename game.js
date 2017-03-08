@@ -18,6 +18,8 @@ function Game(player, dealer) {
 Game.prototype.dealCards = function() {
   var self = this
 
+  this.whoseTurn = 'player'
+
   // instantiate new deck(shuffles on instantiation)
   this.deck = new Deck()
 
@@ -66,8 +68,8 @@ Game.prototype.dealCards = function() {
 
     if (self.playerTotal == 21) {
       console.log('DEALER TURN NOW')
-      self.dealerTurn(this.dealer.hand, this.player.playerTotal)
-      self.handleEndGame()
+      self.dealerTurn()
+      // self.handleEndGame()
     }
     else if (self.playerTotal > 21) {
       console.log('HANDLE BUSSSSSTTTT')
@@ -147,11 +149,15 @@ Game.prototype.checkForBust = function(hand, aces) {
 // modify player/dealer win score, hide 'hit' & 'stay' btns
 // show 'deal' btn again
 Game.prototype.handleEndGame = function() {
-  if (this.dealerScore > 21) {
+
+
+  // FIX MEEEEEEEEEEE
+
+  if (this.dealerScore > 22 || this.player.hand < 22 && this.player.hand > this.dealer.hand) {
     this.playerWins++
     $('.player-score').html(this.playerWins)
   }
-  else{
+  else {
     this.dealerWins++
     $(`.dealer-score`).html(this.dealerWins)
   }
@@ -167,15 +173,12 @@ Game.prototype.dealerTurn = function(){
 
   console.log(this.dealer.hand)
 
-  // this.dealerScore = this.checkForBust(this.dealer.hand)
-
-
   if (this.dealerScore < this.playerScore || this.dealerScore < 22) {
     this.dealer.draw(this.deck)
     this.dealer.showHand($('.dealer'), true)
     this.getCardTotal('dealer')
     this.dealerTurn()
   } else {
-    this.endGame()
+    this.handleEndGame()
   }
 }
