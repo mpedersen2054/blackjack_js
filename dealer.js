@@ -14,10 +14,19 @@ Dealer.prototype.draw = function(deck) {
 }
 
 // pass in jquery elem and appends card w/ unicode
-Dealer.prototype.showHand = function(elem) {
+Dealer.prototype.showHand = function(elem, dealerTurn) {
   var str = ''
+
   for (var i = 0; i < this.hand.length; i++) {
-    str += `<div class="card">&#${i == 0 ? this.hand[i].hiddenHex : this.hand[i].cardImg};</div>`
+    // probs not effient to do this is loop
+    var cond
+    if (dealerTurn) {
+      cond = this.hand[i].cardImg
+    }
+    else {
+      cond = i == 0 ? this.hand[i].hiddenHex : this.hand[i].cardImg
+    }
+    str += `<div class="card">&#${cond};</div>`
   }
   elem.html(str)
 }

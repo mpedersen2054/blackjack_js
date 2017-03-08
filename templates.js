@@ -3,12 +3,12 @@ var Tmpls = {
   boardTmpl: function(playerName) {
     return `
     <div id="game">
+      <h4>Dealer</h4>
       <div class="dealer">
-        <h4>Dealer</h4>
       </div>
 
+      <h4>Player ( ${playerName} )</h4>
       <div class="player">
-        <h4>Player ( ${playerName} )</h4>
       </div>
 
       <div class="actions">

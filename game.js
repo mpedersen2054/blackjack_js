@@ -38,7 +38,7 @@ Game.prototype.dealCards = function() {
 
   // show the hexidecimal cards for hand
   this.player.showHand($('.player'))
-  this.dealer.showHand($('.dealer'))
+  this.dealer.showHand($('.dealer'), false)
 
   // if the dealer has 21 (even before user makes move)
   // dealer will win automatically
@@ -81,8 +81,10 @@ Game.prototype.dealCards = function() {
   // attach e handler onto DOM that will start the dealer's
   //turn if the user stays
   $('.stay').on('click', function() {
-    self.dealerTurn(this.dealer.hand, this.player.playerTotal)
-    self.handleEndGame()
+    this.whoseTurn = 'dealer'
+    self.dealerTurn()
+    // self.handleEndGame()
+    $(this).off()
   })
 
   // gets/updates DOM with the new totals
@@ -121,7 +123,7 @@ Game.prototype.getCardTotal = function(who) {
 // handle aces logic. if playerTotal > 21 & has ace(s), make
 // ace(s) worth 1 instead of 11 until the total is below 21
 Game.prototype.checkForBust = function(hand, aces, total) {
-  if (!aces || ! total) {
+  if (!aces || !total) {
     var aces = []
     var total = 0
   }
@@ -167,12 +169,13 @@ Game.prototype.handleEndGame = function() {
 }
 
 //loop that checks dealer score against player score and 21
-Game.prototype.dealerTurn = function(dealerHand, playerTotal){
-  while(this.checkForBust(dealerHand) < playerTotal || this.checkForBust(dealerHand) < 22){
-    self.dealer.draw(self.deck)
-    self.dealer.showHand($('.dealer'))
-    self.dealerTotal = self.checkForBust(self.dealer.hand)
-    self.getCardTotal('dealer')
-    setInterval(1500)
+Game.prototype.dealerTurn = function(){
+  // this.dealerScore = this.checkForBust(this.dealer.hand)
+  this.getCardTotal('dealer')
+  this.dealer.showHand($('.dealer'), true)
+  console.log(this.dealer.hand)
+
+  if (this.dealerScore < this.playerScore && this.dealerScore < 22) {
+    this.dealerTurn()
   }
 }
